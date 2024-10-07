@@ -1,0 +1,10 @@
+{
+  "spec_dir": "tests",
+  "spec_files": [
+    "**/*.UnitTest.ts"
+  ],
+  "env": {
+    "stopSpecOnExpectationFailure": false,
+    "random": false
+  }
+}
