@@ -13,6 +13,7 @@ This is a task for an interview.
   * [Text file](#text-file)
   * [Index file](#index-file)
     * [Structure](#structure)
+  * [How to run it](#how-to-run-it)
 <!-- TOC -->
 
 ## Task description
@@ -118,7 +119,8 @@ supported, in terms of new lines:
 
 ## Index file
 
-It takes some time to create an index file. But if it exists, any line can be printed almost instantly.
+To improve performance in following runs, it creates an index file. It takes some time to create an
+index file. But if it exists, any line can be printed almost instantly.
 
 ### Structure
 
@@ -132,3 +134,27 @@ works like this:
 [beginning of the second line] = [length of the first line] + [1 or 2 bytes for a new line characters] + 1
 [beginning of the third line] = [beginning of the second line] + [length of the second line] + [1 or 2 bytes for a new line characters] + 1
 ```
+
+## How to run it
+
+To run this application use these commands:
+
+```
+npm install
+npx ts-node src/main.ts <path to file> <line index> 
+```
+
+To generate text file, use this tool:
+
+```
+npm run generate-file
+```
+
+or if ts-node cannot be found:
+
+```
+npx ts-node tools/generateFile.ts
+```
+
+The number of lines, which should be generated, and name of the output file can be changed directly
+in the script. 

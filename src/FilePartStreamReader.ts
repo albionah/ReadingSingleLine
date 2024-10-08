@@ -1,11 +1,10 @@
 import fs from 'fs';
 import { stat } from 'fs/promises';
 import { FilePartReader } from './FilePartReader';
-
-const MEGABYTE = 1000;
+import { MEGABYTE } from './constants';
 
 export class FilePartStreamReader implements FilePartReader {
-    private static readonly partSize = 10 * MEGABYTE;
+    private static readonly partSize = 100 * MEGABYTE;
     private readonly pathToFile: string;
 
     public constructor(pathToFile: string) {

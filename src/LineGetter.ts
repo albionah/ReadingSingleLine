@@ -1,6 +1,6 @@
 import { carriageReturnCode, lineFeedCode } from './CharacterCodes';
-import { LineIndexReader } from './Index/LineIndexReader';
-import { LineLocation } from './Index/LineLocation';
+import { LineIndexReader } from './indexing/LineIndexReader';
+import { LineLocation } from './indexing/LineLocation';
 import { FilePartReader } from './FilePartReader';
 
 export class LineGetter {

@@ -1,6 +1,5 @@
 import { LineIndexReader } from './LineIndexReader';
-import { FilePartStreamReader } from '../FilePartStreamReader';
-import { UINT64_SIZE } from './IndexConstants';
+import { UINT64_SIZE } from '../constants';
 import { LineLocation } from './LineLocation';
 import { FilePartReader } from '../FilePartReader';
 
@@ -17,16 +16,25 @@ export class LineIndexFileReader implements LineIndexReader {
         const buffer: Buffer = await this.filePartReader.readFilePart(startByte, endByte);
         if (buffer.length === 2 * UINT64_SIZE || buffer.length === UINT64_SIZE) {
             return this.transformBufferToLineLocation(buffer);
+        } else if (buffer.length === 0) {
+            throw new Error(`The line ${lineIndexNumber} is not in the file.`);
         } else {
-            throw new Error('Index file is broken. Remove it and run it again.');
+            throw new Error('Index file is broken. Remove it and run this app again.');
         }
     }
 
     private transformBufferToLineLocation(buffer: Buffer): LineLocation {
-        return {
-            startByte: this.readUint64Number(buffer),
-            nextLineStartByte: this.getNextLineStartByteIfNotLastLine(buffer)
-        };
+        try {
+            return {
+                startByte: this.readUint64Number(buffer),
+                nextLineStartByte: this.getNextLineStartByteIfNotLastLine(buffer)
+            };
+        } catch (error) {
+            throw new Error(
+                `It seems that index file is broken because unexpected error ` +
+                `has occurred: "${error.message}". Remove it and run this app again.`
+            );
+        }
     }
 
     private getNextLineStartByteIfNotLastLine(buffer: Buffer): number | undefined {

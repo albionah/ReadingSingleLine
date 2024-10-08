@@ -1,5 +1,5 @@
 import { LineIndexWriter } from './LineIndexWriter';
-import { UINT64_SIZE } from './IndexConstants';
+import { UINT64_SIZE } from '../constants';
 import { WriteStream } from 'node:fs';
 
 export class LineIndexFileWriter implements LineIndexWriter {
@@ -16,15 +16,11 @@ export class LineIndexFileWriter implements LineIndexWriter {
     }
 
     private writeToFile(buffer: Buffer): Promise<void> {
-        return new Promise((resolve, reject) => {
-            const isBufferSufficientlyFree = this.fileStream.write(buffer, (error) => {
-                if (error) {
-                    reject(error);
-                } else if (isBufferSufficientlyFree) {
-                    resolve();
-                }
-            });
-            if (!isBufferSufficientlyFree) {
+        return new Promise((resolve) => {
+            const isBufferSufficientlyFree = this.fileStream.write(buffer);
+            if (isBufferSufficientlyFree) {
+                resolve();
+            } else {
                 this.fileStream.once('drain', resolve);
             }
         });

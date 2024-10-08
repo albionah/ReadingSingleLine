@@ -3,8 +3,8 @@ import * as path from 'path';
 import { WriteStream } from 'node:fs';
 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-const pathToFile = path.join(process.cwd(), 'generatedFile.txt');
-const numberOfLines = 10000000;
+const pathToFile = path.join(process.cwd(), 'generatedSmallFile.txt');
+const numberOfLines = 1000000;
 
 function generateRandomLine(): string {
     const length = Math.floor(Math.random() * 1001);

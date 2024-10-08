@@ -15,7 +15,7 @@ export class LineIndexBuilder {
         let bytePointer = 0;
         for await (const line of this.readLines()) {
             await this.lineIndex.pushBack(bytePointer);
-            bytePointer += line.length + 1;
+            bytePointer += line.length;
         }
     }
 
@@ -28,13 +28,16 @@ export class LineIndexBuilder {
                     if (this.isTwoByteWindowsNewLineSequence(buffer, j)) {
                         j++;
                     }
-                    yield buffer.subarray(0, j);
+                    yield buffer.subarray(0, j + 1);
                     buffer = buffer.subarray(j + 1);
                     j = 0;
                 } else {
                     j++;
                 }
             }
+        }
+        if (buffer.length > 0) {
+            yield buffer;
         }
     }
 
