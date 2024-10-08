@@ -127,6 +127,8 @@ are put next to each other without any delimiter. Each number determines where t
 the disk, of course relatively. So the first line always starts on byte 0. For following lines, it
 works like this:
 
+```
 [beginning of the first line] = 0
 [beginning of the second line] = [length of the first line] + [1 or 2 bytes for a new line characters] + 1
 [beginning of the third line] = [beginning of the second line] + [length of the second line] + [1 or 2 bytes for a new line characters] + 1
+```
