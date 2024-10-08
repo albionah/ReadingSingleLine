@@ -1,20 +1,20 @@
 import { LineIndexReader } from './LineIndexReader';
-import { FileStreamPartReader } from '../FileStreamPartReader';
+import { FilePartStreamReader } from '../FilePartStreamReader';
 import { UINT64_SIZE } from './IndexConstants';
 import { LineLocation } from './LineLocation';
+import { FilePartReader } from '../FilePartReader';
 
 export class LineIndexFileReader implements LineIndexReader {
-    private readonly pathToFile: string;
+    private readonly filePartReader: FilePartReader;
 
-    public constructor(pathToFile: string) {
-        this.pathToFile = pathToFile;
+    public constructor(filePartReader: FilePartReader) {
+        this.filePartReader = filePartReader;
     }
 
-    public async getLineLocation(lineNumber: number): Promise<LineLocation> {
-        const filePartReader = new FileStreamPartReader(this.pathToFile);
-        const startByte = lineNumber * UINT64_SIZE;
+    public async getLineLocation(lineIndexNumber: number): Promise<LineLocation> {
+        const startByte = lineIndexNumber * UINT64_SIZE;
         const endByte = startByte + (2 * UINT64_SIZE) - 1;
-        const buffer = await filePartReader.readFilePart(startByte, endByte);
+        const buffer: Buffer = await this.filePartReader.readFilePart(startByte, endByte);
         if (buffer.length === 2 * UINT64_SIZE || buffer.length === UINT64_SIZE) {
             return this.transformBufferToLineLocation(buffer);
         } else {

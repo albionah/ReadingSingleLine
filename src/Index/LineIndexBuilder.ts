@@ -1,6 +1,6 @@
-import { FilePartReader } from './FileStreamPartReader';
-import { carriageReturnCode, lineFeedCode } from './CharacterCodes';
-import { LineIndexWriter } from './Index/LineIndexWriter';
+import { carriageReturnCode, lineFeedCode } from '../CharacterCodes';
+import { LineIndexWriter } from './LineIndexWriter';
+import { FilePartReader } from '../FilePartReader';
 
 export class LineIndexBuilder {
     private readonly filePartReader: FilePartReader;
@@ -38,7 +38,7 @@ export class LineIndexBuilder {
         }
     }
 
-    private joinLineInProgressWithNewPart(buffer: Buffer, filePart: Buffer) {
+    private joinLineInProgressWithNewPart(buffer: Buffer, filePart: Buffer): Buffer {
         return Buffer.concat([buffer, filePart]);
     }
 

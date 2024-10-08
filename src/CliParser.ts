@@ -1,10 +1,6 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-
-export interface Parameters {
-    pathToFile: string;
-    lineIndexNumber: number;
-}
+import { Parameters } from './Parameters';
 
 export class CliParser {
     public static parse(argv: string[]): Parameters {

@@ -1,14 +1,10 @@
 import fs from 'fs';
 import { stat } from 'fs/promises';
-
-export interface FilePartReader {
-    readFilePart(byteFrom: number, byteTo: number): Promise<Buffer>;
-    readFilePartByPart(): AsyncGenerator<Buffer>;
-}
+import { FilePartReader } from './FilePartReader';
 
 const MEGABYTE = 1000;
 
-export class FileStreamPartReader implements FilePartReader {
+export class FilePartStreamReader implements FilePartReader {
     private static readonly partSize = 10 * MEGABYTE;
     private readonly pathToFile: string;
 
@@ -16,11 +12,11 @@ export class FileStreamPartReader implements FilePartReader {
         this.pathToFile = pathToFile;
     }
 
-    public readFilePart(fromIndex: number, toIndex: number): Promise<Buffer> {
+    public readFilePart(fromIndex: number, toIndex?: number): Promise<Buffer> {
         return new Promise((resolve, reject) => {
             let filePartContent: Buffer = Buffer.from('');
             const stream = fs.createReadStream(this.pathToFile, {
-                highWaterMark: FileStreamPartReader.partSize,
+                highWaterMark: FilePartStreamReader.partSize,
                 flags: 'r',
                 autoClose: true,
                 start: fromIndex,
@@ -40,8 +36,8 @@ export class FileStreamPartReader implements FilePartReader {
 
     public async* readFilePartByPart(): AsyncGenerator<Buffer> {
         const fileStats = await stat(this.pathToFile);
-        for (let p = 0; p < fileStats.size; p += FileStreamPartReader.partSize) {
-            const filePart: Buffer = await this.readFilePart(p, p + FileStreamPartReader.partSize - 1);
+        for (let p = 0; p < fileStats.size; p += FilePartStreamReader.partSize) {
+            const filePart: Buffer = await this.readFilePart(p, p + FilePartStreamReader.partSize - 1);
             yield filePart;
         }
     }

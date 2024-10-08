@@ -1,5 +1,5 @@
 import { LineLocation } from './LineLocation';
 
 export interface LineIndexReader {
-    getLineLocation(lineNumber: number): Promise<LineLocation>;
+    getLineLocation(lineIndexNumber: number): Promise<LineLocation>;
 }
