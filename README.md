@@ -131,8 +131,8 @@ works like this:
 
 ```
 [beginning of the first line] = 0
-[beginning of the second line] = [length of the first line] + [1 or 2 bytes for a new line characters] + 1
-[beginning of the third line] = [beginning of the second line] + [length of the second line] + [1 or 2 bytes for a new line characters] + 1
+[beginning of the second line] = [length of the first line] + [1 or 2 bytes for a new line characters]
+[beginning of the third line] = [beginning of the second line] + [length of the second line] + [1 or 2 bytes for a new line characters]
 ```
 
 ## How to run it
